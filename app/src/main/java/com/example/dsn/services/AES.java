@@ -12,6 +12,7 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+import android.util.Base64.*;
 /**
  * This class enables to carry out the service of AES SHA-256 encryption and decryption.
  * @author Mohammed Ehtesham Ahmed
