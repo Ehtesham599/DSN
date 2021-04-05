@@ -1,12 +1,10 @@
 package com.example.dsn.services;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class DataHandler {
      * @param data byte array to be divided
      * @return list of lists of type Byte
      */
-    private static List<ArrayList<Byte>> getChunks (byte[] data){
+    public static List<ArrayList<Byte>> getChunks (byte[] data){
         List<Byte> byteArrayList = new ArrayList<>();
 
         for(byte b : data){
@@ -57,10 +55,22 @@ public class DataHandler {
     /**
      * @param file to be converted to byte array
      * @return byte array of the given file
-     * @throws IOException if unable to convert to byte array
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private static byte[] fileToByteArray(File file) throws IOException {return Files.readAllBytes(file.toPath());}
+    public byte[] fileToByteArray(File file){
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bytes;
+    }
 
     
 

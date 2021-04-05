@@ -1,16 +1,24 @@
 package com.example.dsn.activities;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dsn.R;
+import com.example.dsn.services.DataHandler;
+import com.example.dsn.utils.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
      * @param resultCode rc
      * @param data data
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FILE_SELECT_CODE) {
@@ -64,9 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 String path = data.getData().getPath();
                 Log.d(TAG, "File Path: " + path);
                 File file = new File(path);
-                Toast.makeText(this, (int) file.length(), Toast.LENGTH_SHORT).show();
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
+
+
+//        List<ArrayList<Byte>> chunkList = chunks(fileToByteArray(file));
+//
+//        System.out.println(Base64.getEncoder().encodeToString(toByteArray(chunkList.get(2))));
