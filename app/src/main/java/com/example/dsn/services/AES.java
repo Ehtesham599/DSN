@@ -1,18 +1,14 @@
 package com.example.dsn.services;
 
-import android.os.Build;
+import android.annotation.SuppressLint;
 
-import androidx.annotation.RequiresApi;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Base64;
 
-import android.util.Base64.*;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 /**
  * This class enables to carry out the service of AES SHA-256 encryption and decryption.
  * @author Mohammed Ehtesham Ahmed
@@ -28,7 +24,7 @@ public class AES {
      * @return base64 encoded encrypted string
      * @throws Exception e upon failing to carry out Cipher class built-in methods
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     public static String encrypt(String plainText, String key) throws Exception {
         byte[] clean = plainText.getBytes();
 
@@ -41,7 +37,7 @@ public class AES {
 
         // Hashing key
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        digest.update(key.getBytes(StandardCharsets.UTF_8));
+        digest.update(key.getBytes("UTF-8"));
         byte[] keyBytes = new byte[16];
         System.arraycopy(digest.digest(), 0, keyBytes, 0, keyBytes.length);
         SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
@@ -67,7 +63,7 @@ public class AES {
      * @return original decrypted string
      * @throws Exception e upon failing to carry out Cipher class built-in methods
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NewApi")
     public static String decrypt(String encodedData, String key) throws Exception {
         int ivSize = 16;
         int keySize = 16;
