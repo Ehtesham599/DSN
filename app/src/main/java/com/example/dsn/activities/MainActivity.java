@@ -9,7 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dsn.R;
+import com.example.dsn.services.DataHandler;
+import com.example.dsn.utils.AppUtils;
 import com.example.dsn.utils.UriUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -66,14 +71,17 @@ public class MainActivity extends AppCompatActivity {
                 String path = UriUtils.getPathFromUri(this, uri);
                 assert path != null;
                 File file = new File(path);
+                String peerID = AppUtils.getPeerID(this);
+                String key = AppUtils.getAESKey(this);
+                JSONObject result = DataHandler.constructLinkedDataObject(file, peerID, key);
+                try {
+                    System.out.println(result.toString(4));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
 }
-
-
-//        List<ArrayList<Byte>> chunkList = chunks(fileToByteArray(file));
-//
-//        System.out.println(Base64.getEncoder().encodeToString(toByteArray(chunkList.get(2))));

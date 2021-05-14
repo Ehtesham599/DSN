@@ -1,10 +1,8 @@
 package com.example.dsn.services;
 
-import android.annotation.SuppressLint;
-
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-import java.util.Base64;
+import android.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -19,14 +17,13 @@ public class AES {
     /**
      * Carries out the task of encrypting given any string.
      * IV is randomized to generate different outputs for the same input. This prevents giving away any information related to the original string.
-     * @param plainText to be encrypted
+     * @param data to be encrypted
      * @param key provided by user
      * @return base64 encoded encrypted string
      * @throws Exception e upon failing to carry out Cipher class built-in methods
      */
-    @SuppressLint("NewApi")
-    public static String encrypt(String plainText, String key) throws Exception {
-        byte[] clean = plainText.getBytes();
+    public static String encrypt(String data, String key) throws Exception {
+        byte[] clean = data.getBytes();
 
         // Generating IV
         int ivSize = 16;
@@ -52,23 +49,22 @@ public class AES {
         System.arraycopy(iv, 0, encryptedIVAndText, 0, ivSize);
         System.arraycopy(encrypted, 0, encryptedIVAndText, ivSize, encrypted.length);
 
-        return Base64.getEncoder().encodeToString(encryptedIVAndText);
+        return Base64.encodeToString(encryptedIVAndText, Base64.DEFAULT);
     }
 
 
     /**
      * Carries out the task of decrypting given any base64 encoded string.
-     * @param encodedData to be decrypted
+     * @param encryptedData to be decrypted
      * @param key provided by user to decrypt data
      * @return original decrypted string
      * @throws Exception e upon failing to carry out Cipher class built-in methods
      */
-    @SuppressLint("NewApi")
-    public static String decrypt(String encodedData, String key) throws Exception {
+    public static String decrypt(String encryptedData, String key) throws Exception {
         int ivSize = 16;
         int keySize = 16;
 
-        byte[] encryptedIvTextBytes = Base64.getDecoder().decode(encodedData);
+        byte[] encryptedIvTextBytes = Base64.decode(encryptedData, Base64.DEFAULT);
 
         // Extract IV
         byte[] iv = new byte[ivSize];
