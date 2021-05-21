@@ -1,5 +1,5 @@
 # DSN
-> An Android app implementing a cloud based Decentralized Storage Network enabling simple file storage in peer-to-peer environment.
+> An Android app implementing a Decentralized Storage Network enabling simple file storage in peer-to-peer environment.
 
 ## Installation
 Clone this repository and import into Android Studio
